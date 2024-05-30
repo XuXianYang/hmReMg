@@ -1,91 +1,56 @@
-import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
+import { login, getUserInfo, getUserDetailById} from '@/api/user'
+import { getToken, setToken, removeToken,setTokenTimestamp } from '@/utils/auth'
 
-const getDefaultState = () => {
-  return {
-    token: getToken(),
-    name: '',
-    avatar: ''
-  }
+const state = {
+  token:getToken(),
+  userinfo:{},// 定义一个空的对象 不是null 因为后边要用到userInfo的属性
 }
 
-const state = getDefaultState()
-
 const mutations = {
-  RESET_STATE: (state) => {
-    Object.assign(state, getDefaultState())
-  },
-  SET_TOKEN: (state, token) => {
+  set_token(state,token){
     state.token = token
+    setToken(token)
   },
-  SET_NAME: (state, name) => {
-    state.name = name
+  remove_token(state){
+    state.token = null
+    removeToken()
   },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
-  }
+  set_userinfo(state,userinfo){
+    // 用 浅拷贝的方式去赋值对象 因为这样数据更新之后，才会触发组件的更新
+    state.userinfo = { ...userinfo }
+  },
+
+  remove_userinfo(state){
+    state.userinfo = {}
+  },
 }
 
 const actions = {
-  // user login
-  login({ commit }, userInfo) {
-    const { username, password } = userInfo
-    return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
+  // 登录
+  async login(context, data){
+    const res = await login(data)
+    if(res){
+      //通过commit调用set_token
+      context.commit('set_token',res)
+      setTokenTimestamp()
+    }
   },
-
-  // get user info
-  getInfo({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-
-        if (!data) {
-          return reject('Verification failed, please Login again.')
-        }
-
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
-    })
+  // 获取用户信息
+  async getUserInfo(context){
+    const res = await getUserInfo()
+    const res2 = await getUserDetailById(res.userId)
+    // 合并用户信息
+    const result = {...res,...res2}
+    if(result){
+      context.commit('set_userinfo',result)
+    }
+    return result
   },
-
-  // user logout
-  logout({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        removeToken() // must remove  token  first
-        resetRouter()
-        commit('RESET_STATE')
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
+  //退出登录，删除token,删除用户信息
+  logout(context){
+    context.commit('remove_token')
+    context.commit('remove_userinfo')
   },
-
-  // remove token
-  resetToken({ commit }) {
-    return new Promise(resolve => {
-      removeToken() // must remove  token  first
-      commit('RESET_STATE')
-      resolve()
-    })
-  }
 }
 
 export default {
