@@ -8,11 +8,11 @@ export function getDepartments() {
   })
 }
 
-// 删除部门
-export function delDepartment(id) {
+// 获取部门详情
+export function getDepartmentDetail(id) {
   return request({
     url: `/company/department/${id}`,
-    method: 'delete',
+    method: 'GET',
   })
 }
 
@@ -25,14 +25,6 @@ export function addDepartment(data) {
   })
 }
 
-// 获取部门详情
-export function getDepartmentDetail(id) {
-  return request({
-    url: `/company/department/${id}`,
-    method: 'GET',
-  })
-}
-
 // 编辑部门
 export function editDepartment(data) {
   return request({
@@ -41,3 +33,16 @@ export function editDepartment(data) {
     data
   })
 }
+
+// 删除部门
+export function delDepartment(id) {
+  return request({
+    url: `/company/department/${id}`,
+    method: 'delete',
+  })
+}
+
+
+
+
+
