@@ -5,7 +5,7 @@ import { getTokenTimestamp } from '@/utils/auth'
 //import { reject } from 'core-js/fn/promise'
 import router from '@/router'
 
-const tokenTimeOut = 3600
+const tokenTimeOut = 36000
 
 // 创建axios实例对象
 const service = axios.create({
