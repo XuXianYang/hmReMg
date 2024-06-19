@@ -17,6 +17,11 @@ import '@/permission' // permission control
 
 //directives得到的是一个对象,包含directives/index.js里面的所有导出对象
 import * as directives from '@/directives'
+import * as filters from '@/filters' // 引入工具类
+
+import Component from '@/components'
+
+import Print from 'vue-print-nb'
 
 /**
  * If you don't want to use mock-server
@@ -38,11 +43,19 @@ Object.keys(directives).forEach(key => {
   Vue.directive(key, directives[key])
 })
 
+// 注册全局的过滤器
+Object.keys(filters).forEach(key => {
+  // 注册过滤器
+  Vue.filter(key, filters[key])
+})
+
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
 
+Vue.use(Component) // 注册自己的插件
+Vue.use(Print)
 Vue.config.productionTip = false
 
 new Vue({

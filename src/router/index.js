@@ -66,6 +66,16 @@ export const constantRoutes = [
       meta: { title: '首页', icon: 'dashboard' }
     }]
   },
+  {
+    path: '/import',
+    component: Layout,
+    hidden: true, // 隐藏在左侧菜单中
+    children: [{
+      path: '',
+      name: 'import',
+      component: () => import('@/views/import/index'),
+    }]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
@@ -87,7 +97,7 @@ const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   // 合并静态路由和动态路由
-  routes: [...constantRoutes , ...asyncRoutes],
+  routes: [...asyncRoutes , ...constantRoutes],
 })
 
 const router = createRouter()
