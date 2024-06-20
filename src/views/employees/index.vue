@@ -104,7 +104,7 @@
             <el-button type="text" size="small">转正</el-button>
             <el-button type="text" size="small">调岗</el-button>
             <el-button type="text" size="small">离职</el-button>
-            <el-button type="text" size="small">角色</el-button>
+            <el-button type="text" size="small" @click="addRoles(row.id)">角色</el-button>
             <el-button type="text" size="small" @click="delUser(row.id)"
               >删除</el-button
             >
@@ -126,11 +126,13 @@
       :dialogVisible.sync="showAddDialog"
       @closeDialog="showAddDialog = false"
     ></addEmployeesView>
-    <el-dialog
-      title="二维码"
-      :visible.sync="showCodeDialog"
-      width="400"
-    >
+    <assignRoleView
+      :dialogVisible.sync="showRoleDialog"
+      @closeDialog="showRoleDialog = false"
+      :userId="userId"
+      ref="assignRole"
+    ></assignRoleView>
+    <el-dialog title="二维码" :visible.sync="showCodeDialog" width="400">
       <el-row type="flex" justify="center">
         <canvas ref="myCanvas" />
       </el-row>
@@ -144,13 +146,16 @@ import employeesUntil from "@/api/constant/employees";
 import addEmployeesView from "./add-employee.vue";
 import { formatTime } from "@/filters";
 import EmployeeEnum from "@/api/constant/employees";
-import QrCode from "qrcode"
+import QrCode from "qrcode";
+import assignRoleView from "./assign-role.vue";
 
 export default {
   data() {
     return {
+      userId:'',
       showCodeDialog: false,
       showAddDialog: false,
+      showRoleDialog: false,
       loading: false,
       tableData: [],
       page: {
@@ -172,6 +177,7 @@ export default {
   },
   components: {
     addEmployeesView,
+    assignRoleView,
   },
   created() {
     this.getUserList();
@@ -277,11 +283,19 @@ export default {
         // 数据更新了弹层不会立刻出现，页面的渲染是异步的！！！！
         // 数据更新完毕，页面渲染完毕之后执行$nextTick
         this.$nextTick(() => {
-          QrCode.toCanvas(this.$refs.myCanvas, url); 
+          QrCode.toCanvas(this.$refs.myCanvas, url);
         });
-      }else{
-        this.$message.warning('头像不存在')
+      } else {
+        this.$message.warning("头像不存在");
       }
+    },
+
+    // 分配角色
+    async addRoles(userId){
+      this.userId = userId
+      // 直接调用子组件的方法
+      await this.$refs.assignRole.getUserDetailById(userId)
+      this.showRoleDialog = true
     },
   },
 };

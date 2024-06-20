@@ -33,6 +33,8 @@
 import COS from "cos-js-sdk-v5";
 // 配置腾讯云的公钥信息
 var cos = new COS({
+  // SecretId: "AKIDBRksnZEkKn8LRvCF4kHcit1G6sdJuQ6m",
+  // SecretKey: "iMtIbjkvycy8CpPr8QgqutlVTIuOzTq7",
 });
 
 export default {
