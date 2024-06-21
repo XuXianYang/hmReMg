@@ -35,7 +35,7 @@
                 <el-button
                   size="small"
                   type="success"
-                  @click="handleBtn(scope.$index, scope.row)"
+                  @click="getPermissionList(scope.row)"
                   >分配权限</el-button
                 >
                 <el-button
@@ -123,7 +123,13 @@
       :visible.sync="dialogVisible"
       :close="closeDialog"
     >
-      <el-form class="roleForm" ref="roleForm" label-width="80px" :rules="roleRules" :model="roleForm">
+      <el-form
+        class="roleForm"
+        ref="roleForm"
+        label-width="80px"
+        :rules="roleRules"
+        :model="roleForm"
+      >
         <el-form-item label="角色名称" prop="name">
           <el-input
             v-model="roleForm.name"
@@ -142,15 +148,52 @@
         slot="footer"
         type="flex"
         justify="center"
-        style="padding-right: 50px;"
+        style="padding-right: 50px"
       >
         <!-- 列被分为24 -->
         <el-col :span="12">
           <el-button type="primary" size="small" @click="addAndEditRoleFn"
-            >确定</el-button>
+            >确定</el-button
+          >
         </el-col>
         <el-col :span="12">
           <el-button size="small" @click="closeDialog">取消</el-button>
+        </el-col>
+      </el-row>
+    </el-dialog>
+    <el-dialog
+      title="分配权限"
+      :visible.sync="showPermissionDailog"
+      :close="closePermissionDailog"
+    >
+      <!-- check-strictly:true表示父子勾选时不互相关联false就互相关联 -->
+      <!-- id作为唯一标识 -->
+      <el-tree
+        ref="permTree"
+        :data="permData"
+        :props="defaultProps"
+        :show-checkbox="true"
+        :check-strictly="true"
+        :default-expand-all="true"
+        :default-checked-keys="selectCheck"
+        node-key="id"
+      />
+      <el-row
+        slot="footer"
+        type="flex"
+        justify="center"
+        style="padding-right: 50px"
+      >
+        <!-- 列被分为24 -->
+        <el-col :span="12">
+          <el-button type="primary" size="small" @click="assignPermission"
+            >确定</el-button
+          >
+        </el-col>
+        <el-col :span="12">
+          <el-button size="small" @click="closePermissionDailog"
+            >取消</el-button
+          >
         </el-col>
       </el-row>
     </el-dialog>
@@ -165,14 +208,17 @@ import {
   getRoleDetail,
   addRole,
   editRole,
+  assignPerm
 } from "@/api/setting";
+import { getPermissionList } from "@/api/permission";
+import { tranListToTreeData } from "@/utils";
 
 export default {
   data() {
     return {
       roleForm: {
-        name: '',
-        description: ''
+        name: "",
+        description: "",
       },
       roleRules: {
         name: [
@@ -194,7 +240,15 @@ export default {
           },
         ],
       },
+      showPermissionDailog: false,
       dialogVisible: false,
+      defaultProps: {
+        label: "name",
+      },
+      permData: [], // 专门用来接收权限数据 树形数据
+      selectCheck: [], // 定义一个数组来接收 已经选中的节点
+      roleId: null, // 用来记录分配角色的id
+
       loading: false,
       form: {},
       activeName: "first",
@@ -216,14 +270,10 @@ export default {
     handleClick(tab, event) {
       //console.log(tab, event);
     },
-    // 分配权限
-    handleBtn(index, row) {
-      this.$message.success('敬请期待~')
-    },
     // 编辑角色
     handleEdit(index, row) {
       this.dialogVisible = true;
-      this.getRoleDetail(row.id)
+      this.getRoleDetail(row.id);
     },
     // 删除角色
     async handleDelete(index, row) {
@@ -251,21 +301,21 @@ export default {
         .validate()
         .then(() => {
           this.loading = true;
-          if(this.roleForm.id){
+          if (this.roleForm.id) {
             return editRole({ ...this.roleForm });
-          }else{
+          } else {
             return addRole({ ...this.roleForm });
           }
         })
         .then(() => {
-          if(this.roleForm.id){
-            this.$message.success('编辑成功')
-          }else{
-            this.$message.success('新增成功')
+          if (this.roleForm.id) {
+            this.$message.success("编辑成功");
+          } else {
+            this.$message.success("新增成功");
           }
           this.loading = false;
-          this.dialogVisible = false
-          this.getRoleList()
+          this.dialogVisible = false;
+          this.getRoleList();
         })
         .catch(() => {
           this.loading = false;
@@ -289,12 +339,46 @@ export default {
       const res = await getRoleDetail(id);
       this.roleForm = res;
     },
+    // 关闭添加角色弹框
     closeDialog() {
       // 重置表单外的字段
-      this.roleForm = {name: '',description: ''}
+      this.roleForm = { name: "", description: "" };
       // 重置表单
       this.$refs.roleForm.resetFields();
       this.dialogVisible = false;
+    },
+
+    // 关闭分配权限弹框
+    closePermissionDailog() {
+      this.selectCheck = [];
+      this.roleId = null;
+      this.showPermissionDailog = false;
+    },
+    // 获取权限列表，并弹框
+    async getPermissionList(roleInfo) {
+      this.loading = true;
+      // 获取权限节点数据，并转化为树状结构数组
+      const permissionList = await getPermissionList();
+      this.permData = tranListToTreeData(permissionList, "0");
+      // 获取角色详情，并把该角色权限赋值给选中列表
+      const res = await getRoleDetail(roleInfo.id);
+      this.selectCheck = res.permIds;
+
+      this.loading = false;
+      this.showPermissionDailog = true;
+    },
+
+    // 分配权限
+    async assignPermission() {
+      try{
+        this.loading = true
+        await assignPerm({ permIds: this.$refs.permTree.getCheckedKeys(), id: this.roleId })
+        this.loading = false
+        this.$message.success('分配权限成功')
+      this.showPermDialog = false
+      }catch(err){
+        this.loading = false
+      }
     },
   },
 };

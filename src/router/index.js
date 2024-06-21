@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 // 引入多个模块的规则
+
+import dashboardRouter from './modules/dashboard'
 import approvalsRouter from './modules/approvals'
 import departmentsRouter from './modules/departments'
 import employeesRouter from './modules/employees'
@@ -54,18 +56,6 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
-
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard' }
-    }]
-  },
   {
     path: '/import',
     component: Layout,
@@ -81,16 +71,16 @@ export const constantRoutes = [
 ]
 
 // 动态路由
-// 动态路由
 export const asyncRoutes = [
-  approvalsRouter,
+  dashboardRouter,
   departmentsRouter,
   employeesRouter,
   permissionRouter,
+  approvalsRouter,
   attendancesRouter,
   salarysRouter,
+  socialRouter,
   settingRouter,
-  socialRouter
 ]
 
 const createRouter = () => new Router({

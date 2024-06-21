@@ -179,7 +179,7 @@ export default {
     },
     // 编辑权限
     editPermission(data) {
-      this.formData = data;
+      this.formData = {...data};
       this.showDialog = true;
     },
     // 发起添加编辑权限请求
