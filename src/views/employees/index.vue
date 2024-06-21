@@ -98,6 +98,7 @@
             <el-button
               type="text"
               size="small"
+              :disabled="!checkPermission('POINT-USER-UPDATE')"
               @click="$router.push(`/employees/detail/${row.id}`)"
               >查看</el-button
             >
@@ -148,6 +149,7 @@ import { formatTime } from "@/filters";
 import EmployeeEnum from "@/api/constant/employees";
 import QrCode from "qrcode";
 import assignRoleView from "./assign-role.vue";
+import checkPermission from "@/mixin/checkPermission"
 
 export default {
   data() {
@@ -297,6 +299,10 @@ export default {
       await this.$refs.assignRole.getUserDetailById(userId)
       this.showRoleDialog = true
     },
+
+    checkPermission(key){
+      return checkPermission.methods.checkPermission(key)
+    }
   },
 };
 </script>

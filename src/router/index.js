@@ -2,8 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 // 引入多个模块的规则
-
-import dashboardRouter from './modules/dashboard'
 import approvalsRouter from './modules/approvals'
 import departmentsRouter from './modules/departments'
 import employeesRouter from './modules/employees'
@@ -56,6 +54,7 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
+  
   {
     path: '/import',
     component: Layout,
@@ -67,12 +66,23 @@ export const constantRoutes = [
     }]
   },
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 // 动态路由
 export const asyncRoutes = [
-  dashboardRouter,
+  {
+    path: '/',
+    name:"dashboard",
+    component: Layout,
+    redirect: '/dashboard',
+    children: [{
+      path: 'dashboard',
+      name: 'Dashboard',
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: '首页', icon: 'dashboard' }
+    }]
+  },
   departmentsRouter,
   employeesRouter,
   permissionRouter,
@@ -86,8 +96,7 @@ export const asyncRoutes = [
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  // 合并静态路由和动态路由
-  routes: [...asyncRoutes , ...constantRoutes],
+  routes: [...constantRoutes ],
 })
 
 const router = createRouter()

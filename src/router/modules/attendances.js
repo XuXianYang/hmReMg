@@ -3,6 +3,7 @@ import layout from '@/layout'
 // 一级路由：考勤
 export default {
     path:'/attendances',
+    name:'attendances',
     // 每个子模块都要有layout作为外层组件，因此以及路由组件都是layout，二级路由默认是该子模块
     component:layout,
     children:[

@@ -25,7 +25,13 @@ router.beforeEach(async(to, from, next) => {
       next('/')
     }else{
       if(!store.getters.userId){
-        await store.dispatch('user/getUserInfo')
+        const {roles} = await store.dispatch('user/getUserInfo')
+        // 根据用户信息，去匹配获取用户获取的动态路由信息
+        const routes = await store.dispatch('permission/filterRoutes', roles.menus)
+        router.addRoutes([...routes, { path: '*', redirect: '/404', hidden: true }])// 添加动态路由到路由表
+        // router.addRoutes(routes)// 添加动态路由到路由表
+        //当我们判断用户是否已经添加路由的前后，不能都是用next()，
+        //在添加路由之后应该使用next(to.path)， 否则会使刷新页面之后 权限消失，这属于一个vue-router的已知缺陷
         next(to.path)
       }else{
         next()
