@@ -18,6 +18,7 @@
     "core-js": "latest",
     "cos-js-sdk-v5": "^1.8.1",
     "dayjs": "^1.11.11",
+    "echarts": "^5.5.0",
     "element-ui": "latest",
     "file-saver": "^2.0.5",
     "js-cookie": "latest",
