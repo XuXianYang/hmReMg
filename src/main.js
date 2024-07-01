@@ -22,7 +22,6 @@ import * as filters from '@/filters' // 引入工具类
 import Component from '@/components'
 
 import Print from 'vue-print-nb'
-
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

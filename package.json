@@ -26,6 +26,7 @@
     "nprogress": "latest",
     "path-to-regexp": "latest",
     "qrcode": "^1.5.3",
+    "screenfull": "^5.2.0",
     "vue": "latest",
     "vue-print-nb": "^1.7.5",
     "vue-router": "latest",

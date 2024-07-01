@@ -9,10 +9,13 @@
     <div class="app-breadcrumb">
       上海屹通信息科技股份有限公司
       <span class="breadBtn">体验版</span>
+      
     </div>
+    
     <!-- <breadcrumb class="breadcrumb-container" /> -->
-
     <div class="right-menu">
+      <ScreenFull class="ScreenFull"></ScreenFull>
+      <ThemePicker class="ThemePicker"></ThemePicker>
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <!-- @/assets/common/bigUserHeader.png -->
@@ -114,11 +117,18 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
-
+    display: flex;
     &:focus {
       outline: none;
     }
-
+    .ScreenFull{
+      margin-right: 30px;
+      padding-top: 5px;
+    }
+    .ThemePicker{
+      margin-right: 30px;
+      padding-top: 15px;
+    }
     .right-menu-item {
       display: inline-block;
       padding: 0 8px;
