@@ -16,6 +16,7 @@
     <div class="right-menu">
       <ScreenFull class="ScreenFull"></ScreenFull>
       <ThemePicker class="ThemePicker"></ThemePicker>
+      <langVue class="langVue"></langVue>
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <!-- @/assets/common/bigUserHeader.png -->
@@ -46,6 +47,7 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
+import langVue from "@/components/Lang"
 
 export default {
   data(){
@@ -56,6 +58,7 @@ export default {
   components: {
     Breadcrumb,
     Hamburger,
+    langVue
   },
   computed: {
     ...mapGetters(["sidebar", "avatar","name"]),
@@ -128,6 +131,10 @@ export default {
     .ThemePicker{
       margin-right: 30px;
       padding-top: 15px;
+    }
+    .langVue{
+      margin-right: 30px;
+      padding-top: 5px;
     }
     .right-menu-item {
       display: inline-block;

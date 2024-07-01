@@ -4,6 +4,8 @@ import UploadExcel from './UploadExcel'
 import ImageUpload from './ImageUpload'
 import ScreenFull from './ScreenFull'
 import ThemePicker from './ThemePicker'
+import TagsView from './TagsView'
+
 export default {
   install(Vue) {
     //  注册全局的通用栏组件对象
@@ -12,5 +14,6 @@ export default {
     Vue.component('ImageUpload', ImageUpload)
     Vue.component('ScreenFull', ScreenFull)
     Vue.component('ThemePicker', ThemePicker)
+    Vue.component('TagsView', TagsView)
   }
 }
