@@ -1,61 +1,64 @@
 <template>
-  <div v-loading="loading" class="departments-container" >
-    <el-card class="box-card" >
+  <div v-loading="loading" class="departments-container">
+    <el-card class="box-card">
       <treeToolsVue
-        :isRoot="true"
-        :treeNode="company"
+        :is-root="true"
+        :tree-node="company"
         @addDep="addDep"
-      ></treeToolsVue>
+      />
       <el-tree
         :data="departs"
         :props="defaultProps"
-        @node-click="handleNodeClick"
         :default-expand-all="true"
+        @node-click="handleNodeClick"
       >
         <treeToolsVue
           slot-scope="{ data }"
-          :isRoot="false"
-          :treeNode="data"
+          :is-root="false"
+          :tree-node="data"
           @delDep="getDepartments"
           @addDep="addDep"
           @editDep="editDep"
-        ></treeToolsVue>
+        />
       </el-tree>
     </el-card>
     <!-- 只要用sync修饰，就可以省略父组件的监听和方法，直接将值赋值给dialogVisible-->
     <addDeptVue
       ref="addDept"
-      :dialogVisible.sync="showAddDialog"
+      :dialog-visible.sync="showAddDialog"
+      :tree-node="currentNode"
       @closeDialog="showAddDialog = false"
-      :treeNode="currentNode"
       @addSuccess="getDepartments"
-    ></addDeptVue>
+    />
   </div>
 </template>
 
 <script>
-import treeToolsVue from "./tree-tools.vue";
-import addDeptVue from "./add-dept.vue";
-import { getDepartments } from "@/api/departments";
-import { tranListToTreeData } from "@/utils";
+import treeToolsVue from './tree-tools.vue'
+import addDeptVue from './add-dept.vue'
+import { getDepartments } from '@/api/departments'
+import { tranListToTreeData } from '@/utils'
 
 export default {
   components: {
     treeToolsVue,
-    addDeptVue,
+    addDeptVue
   },
   data() {
     return {
-      loading:false,
-      company: {},//顶部公司节点信息
-      departs: [],//所有部门信息
+      loading: false,
+      company: {}, // 顶部公司节点信息
+      departs: [], // 所有部门信息
       defaultProps: {
-        children: "children",
-        label: "name",
+        children: 'children',
+        label: 'name'
       },
       showAddDialog: false,
-      currentNode: null,//当前操作的节点信息
-    };
+      currentNode: null// 当前操作的节点信息
+    }
+  },
+  created() {
+    this.getDepartments()
   },
   methods: {
     // 节点点击事件
@@ -64,33 +67,29 @@ export default {
     // 获取全部部门信息
     async getDepartments() {
       this.loading = true
-      const res = await getDepartments();
-      // 跟节点中没有id，id便是undefined，但是通过undefined进行等值判断是寻找不到对应的根节点的， 
+      const res = await getDepartments()
+      // 跟节点中没有id，id便是undefined，但是通过undefined进行等值判断是寻找不到对应的根节点的，
       // 所以在传值时，我们将id属性设置为空串""
-      this.company = { name: res.companyName, manager: "负责人" ,id:""};
-      this.departs = tranListToTreeData(res.depts, "");
+      this.company = { name: res.companyName, manager: '负责人', id: '' }
+      this.departs = tranListToTreeData(res.depts, '')
       this.loading = false
     },
     // 新增部门
     addDep(node) {
-      this.currentNode = node;
-      this.showAddDialog = true;
+      this.currentNode = node
+      this.showAddDialog = true
     },
     // 编辑部门
     editDep(node) {
-      this.currentNode = node;
-      this.showAddDialog = true;
-      //通过refs调用子组件的方法
+      this.currentNode = node
+      this.showAddDialog = true
+      // 通过refs调用子组件的方法
       this.$refs.addDept.getDepartmentDetail(node.id)
-    },
-  },
-  created() {
-    this.getDepartments();
-  },
-};
+    }
+  }
+}
 </script>
-  
-  
+
 <style scoped lang="scss">
 .departments-container {
   .box-card {
@@ -117,4 +116,3 @@ export default {
   }
 }
 </style>
-  

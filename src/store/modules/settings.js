@@ -6,7 +6,7 @@ const state = {
   showSettings: showSettings,
   fixedHeader: fixedHeader,
   sidebarLogo: sidebarLogo,
-  theme:"#f5222d",
+  theme: '#f5222d'
 }
 
 const mutations = {

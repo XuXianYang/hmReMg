@@ -3,7 +3,7 @@
     <el-card class="header-card">
       <div class="fl headL">
         <div class="headImg">
-          <img :src="userinfo.staffPhoto" v-imageError="defaultImg" />
+          <img v-imageError="defaultImg" :src="userinfo.staffPhoto">
         </div>
         <div class="headInfoTip">
           <p class="firstChild">
@@ -16,7 +16,7 @@
           </p>
         </div>
       </div>
-      <div></div>
+      <div />
     </el-card>
     <el-row class="body" type="flex" justify="space-between">
       <el-col :span="12">
@@ -24,7 +24,7 @@
           <div slot="header" class="header">
             <span>工作日历</span>
           </div>
-          <workCalendar></workCalendar>
+          <workCalendar />
         </el-card>
         <el-card class="box-card advContent">
           <div slot="header" class="header">
@@ -34,7 +34,7 @@
             <ul class="noticeList">
               <li class="item">
                 <div>
-                  <img class="iconHead" src="@/assets/common/head.jpg" alt="" />
+                  <img class="iconHead" src="@/assets/common/head.jpg" alt="">
                 </div>
                 <div>
                   <p class="firstChild">
@@ -55,18 +55,19 @@
             <span>流程申请</span>
           </div>
           <div class="sideNav">
-            <el-button class="sideBtn" @click="showDialog = true"
-              >加班离职</el-button
-            >
+            <el-button
+              class="sideBtn"
+              @click="showDialog = true"
+            >加班离职</el-button>
             <el-button class="sideBtn">请假调休</el-button>
-            <el-button class="sideBtn" @click="$router.push('/approvals')"
-              >审批列表</el-button
-            >
+            <el-button
+              class="sideBtn"
+              @click="$router.push('/approvals')"
+            >审批列表</el-button>
             <el-button
               class="sideBtn"
               @click="$router.push(`/employees/detail/${userinfo.userId}`)"
-              >我的信息</el-button
-            >
+            >我的信息</el-button>
           </div>
         </el-card>
         <el-card class="box-card">
@@ -74,7 +75,7 @@
             <span>绩效指数</span>
           </div>
           <!-- 放置雷达图 -->
-          <radar></radar>
+          <radar />
         </el-card>
         <el-card class="box-card">
           <div slot="header" class="header headTit">
@@ -143,47 +144,47 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-const { mapState } = createNamespacedHelpers("user");
-import workCalendar from "@/views/dashboard/components/work-calendar.vue";
-import radar from "@/views/dashboard/components/radar.vue";
+import { createNamespacedHelpers } from 'vuex'
+const { mapState } = createNamespacedHelpers('user')
+import workCalendar from '@/views/dashboard/components/work-calendar.vue'
+import radar from '@/views/dashboard/components/radar.vue'
 import { startProcess } from '@/api/approvals'
 
 export default {
+  name: 'Dashboard',
   components: {
     workCalendar,
-    radar,
+    radar
   },
-  name: "Dashboard",
   computed: {
-    ...mapState(["userinfo"]),
+    ...mapState(['userinfo'])
   },
   data() {
     return {
-      defaultImg: require("@/assets/common/head.jpg"),
+      defaultImg: require('@/assets/common/head.jpg'),
       showDialog: false,
       ruleForm: {
-        exceptTime: "",
-        reason: "",
-        processKey: "process_dimission", // 特定的审批
-        processName: "离职",
+        exceptTime: '',
+        reason: '',
+        processKey: 'process_dimission', // 特定的审批
+        processName: '离职'
       },
       rules: {
-        exceptTime: [{ required: true, message: "离职时间不能为空" }],
-        reason: [{ required: true, message: "离职原因不能为空" }],
-      },
-    };
+        exceptTime: [{ required: true, message: '离职时间不能为空' }],
+        reason: [{ required: true, message: '离职原因不能为空' }]
+      }
+    }
   },
   methods: {
     btnCancel() {
       this.ruleForm = {
-        exceptTime: "",
-        reason: "",
-        processKey: "process_dimission", // 特定的审批
-        processName: "离职",
-      };
-      this.$refs.ruleForm.resetFields();
-      this.showDialog = false;
+        exceptTime: '',
+        reason: '',
+        processKey: 'process_dimission', // 特定的审批
+        processName: '离职'
+      }
+      this.$refs.ruleForm.resetFields()
+      this.showDialog = false
     },
     btnOK() {
       this.$refs.ruleForm.validate(async validate => {
@@ -194,9 +195,9 @@ export default {
           this.btnCancel()
         }
       })
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

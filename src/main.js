@@ -15,7 +15,7 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
-//directives得到的是一个对象,包含directives/index.js里面的所有导出对象
+// directives得到的是一个对象,包含directives/index.js里面的所有导出对象
 import * as directives from '@/directives'
 import * as filters from '@/filters' // 引入工具类
 

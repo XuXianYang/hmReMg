@@ -4,7 +4,7 @@ import request from '@/utils/request'
 export function getPermissionList() {
   return request({
     url: '/sys/permission',
-    method: 'GET',
+    method: 'GET'
   })
 }
 
@@ -19,25 +19,25 @@ export function addPermission(data) {
 
 // 根据ID获取权限点详情
 export function getPermissionById(id) {
-    return request({
-      url: `/sys/permission/${id}`,
-      method: 'GET',
-    })
+  return request({
+    url: `/sys/permission/${id}`,
+    method: 'GET'
+  })
 }
 
 // 根据ID更新权限点详情
 export function updatePermissionById(data) {
-    return request({
-      url: `/sys/permission/${data.id}`,
-      method: 'PUT',
-      data
-    })
+  return request({
+    url: `/sys/permission/${data.id}`,
+    method: 'PUT',
+    data
+  })
 }
 
 // 根据id删除权限点
 export function delPermissionById(id) {
-    return request({
-      url: `/sys/permission/${id}`,
-      method: 'DELETE',
-    })
+  return request({
+    url: `/sys/permission/${id}`,
+    method: 'DELETE'
+  })
 }

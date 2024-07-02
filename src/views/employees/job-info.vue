@@ -211,8 +211,8 @@
 </template>
 
 <script>
-import EmployeeEnum from "@/api/constant/employees";
-import { getJobDetail,updateJob} from "@/api/employees"
+import EmployeeEnum from '@/api/constant/employees'
+import { getJobDetail, updateJob } from '@/api/employees'
 
 export default {
   data() {
@@ -221,47 +221,47 @@ export default {
       depts: [],
       EmployeeEnum,
       formData: {
-        adjustmentAgedays: "", // 调整司龄天
-        adjustmentOfLengthOfService: "", // 调整工龄天
-        closingTimeOfCurrentContract: "", // 现合同结束时间
-        companyId: "", // 公司ID
-        contractDocuments: "", // 合同文件
-        contractPeriod: "", // 合同期限
-        correctionEvaluation: "", //  转正评价
-        currentContractStartTime: "", // 现合同开始时间
-        firstContractTerminationTime: "", // 首次合同结束时间
-        hrbp: "", // HRBP
-        initialContractStartTime: "", // 首次合同开始时间
-        otherRecruitmentChannels: "", // 其他招聘渠道
-        post: "", // 岗位
+        adjustmentAgedays: '', // 调整司龄天
+        adjustmentOfLengthOfService: '', // 调整工龄天
+        closingTimeOfCurrentContract: '', // 现合同结束时间
+        companyId: '', // 公司ID
+        contractDocuments: '', // 合同文件
+        contractPeriod: '', // 合同期限
+        correctionEvaluation: '', //  转正评价
+        currentContractStartTime: '', // 现合同开始时间
+        firstContractTerminationTime: '', // 首次合同结束时间
+        hrbp: '', // HRBP
+        initialContractStartTime: '', // 首次合同开始时间
+        otherRecruitmentChannels: '', // 其他招聘渠道
+        post: '', // 岗位
         rank: null, // 职级
-        recommenderBusinessPeople: "", // 推荐企业人
-        recruitmentChannels: "", // 招聘渠道
-        renewalNumber: "", // 续签次数
-        reportId: "", // 汇报对象
+        recommenderBusinessPeople: '', // 推荐企业人
+        recruitmentChannels: '', // 招聘渠道
+        renewalNumber: '', // 续签次数
+        reportId: '', // 汇报对象
         reportName: null, // 汇报对象
-        socialRecruitment: "", // 社招校招
-        stateOfCorrection: "", // 转正状态
-        taxableCity: "", // 纳税城市
-        userId: "", // 员工ID
-        workMailbox: "", // 工作邮箱
-        workingCity: "", // 工作城市
-        workingTimeForTheFirstTime: "", // 首次参加工作时间
-      },
-    };
+        socialRecruitment: '', // 社招校招
+        stateOfCorrection: '', // 转正状态
+        taxableCity: '', // 纳税城市
+        userId: '', // 员工ID
+        workMailbox: '', // 工作邮箱
+        workingCity: '', // 工作城市
+        workingTimeForTheFirstTime: '' // 首次参加工作时间
+      }
+    }
   },
-  created(){
+  created() {
     this.getJobInfo()
   },
-  methods:{
-    async saveJob(){
-      await updateJob(this.formData).then(()=>{}).catch(err=>{})
+  methods: {
+    async saveJob() {
+      await updateJob(this.formData).then(() => {}).catch(err => {})
     },
-    async getJobInfo(){
+    async getJobInfo() {
       this.formData = await getJobDetail(this.userId)
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

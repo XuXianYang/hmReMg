@@ -118,10 +118,10 @@ export function param2Obj(url) {
 
 // 遍历数组，根据子节点的pid等于节点的id，转化为树状节点结构
 export function tranListToTreeData(list, rootValue) {
-  let arr = []
+  const arr = []
   list.forEach(item => {
     if (item.pid === rootValue) {
-      let children = tranListToTreeData(list, item.id)
+      const children = tranListToTreeData(list, item.id)
       if (children.length > 0) {
         item.children = children
       }

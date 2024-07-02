@@ -23,10 +23,10 @@ export default {
   props: {
     showBefore: {
       type: Boolean,
-      default: false,
-    },
-  },
-};
+      default: false
+    }
+  }
+}
 </script>
 
 <style lang='scss'>

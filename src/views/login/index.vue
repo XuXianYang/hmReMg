@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <img src="@/assets/common/login-logo.png" alt="" />
+        <img src="@/assets/common/login-logo.png" alt="">
       </div>
       <!--prop需要和loginRules中的属性对应  -->
       <el-form-item prop="mobile">
@@ -55,8 +55,7 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >登录</el-button
-      >
+      >登录</el-button>
 
       <div class="tips">
         <span style="margin-right: 20px">账号: 13800000002</span>
@@ -67,76 +66,76 @@
 </template>
 
 <script>
-import { validMobile } from "@/utils/validate";
+import { validMobile } from '@/utils/validate'
 
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     const validateMobile = (rule, value, callback) => {
-      validMobile(value) ? callback() : callback(new Error("手机号格式不正确"));
-    };
+      validMobile(value) ? callback() : callback(new Error('手机号格式不正确'))
+    }
     return {
       loginForm: {
-        mobile: "13800000002",
-        password: "888itcast.CN764%...",
+        mobile: '13800000002',
+        password: '888itcast.CN764%...'
       },
       loginRules: {
         mobile: [
-          { required: true, trigger: "blur", message: "手机号不能为空" },
+          { required: true, trigger: 'blur', message: '手机号不能为空' },
           // 自定义校验规则
-          { validator: validateMobile, trigger: "blur" },
+          { validator: validateMobile, trigger: 'blur' }
         ],
         password: [
-          { required: true, trigger: "blur", message: "密码不能为空" },
-          { min: 6, max: 24, message: "密码长度为6到24位", trigger: "blur" },
-        ],
+          { required: true, trigger: 'blur', message: '密码不能为空' },
+          { min: 6, max: 24, message: '密码长度为6到24位', trigger: 'blur' }
+        ]
       },
       loading: false,
-      passwordType: "password",
-      redirect: undefined,
-    };
+      passwordType: 'password',
+      redirect: undefined
+    }
   },
   watch: {
     $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect;
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     showPwd() {
-      if (this.passwordType === "password") {
-        this.passwordType = "";
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
       } else {
-        this.passwordType = "password";
+        this.passwordType = 'password'
       }
       this.$nextTick(() => {
-        this.$refs.password.focus();
-      });
+        this.$refs.password.focus()
+      })
     },
     handleLogin() {
       // 通过refs获取表单对象，调用表单验证方法validate
-      this.$refs.loginForm.validate(async (valid) => {
+      this.$refs.loginForm.validate(async(valid) => {
         if (valid) {
-          this.loading = true;
+          this.loading = true
           // 调用vuex中action的异步方法
           this.$store
-            .dispatch("user/login", this.loginForm)
+            .dispatch('user/login', this.loginForm)
             .then(() => {
-              this.$router.push({ path: this.redirect || "/" });
-              this.loading = false;
+              this.$router.push({ path: this.redirect || '/' })
+              this.loading = false
             })
             .catch((err) => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         } else {
-          return false;
+          return false
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss">

@@ -14,8 +14,7 @@
               class="el-button fr el-button--primary el-button--mini"
               title="导出"
               @click="handleExport()"
-              >导出</a
-            >
+            >导出</a>
           </div>
         </div>
         <el-table
@@ -101,12 +100,16 @@
     </div>
     <el-row type="flex" justify="center" align="middle" style="height: 60px">
       <el-col :span="12">
-        <el-button size="small" type="primary" @click="archivingReportForm"
-          >归档{{ yearMonth ? yearMonth.substr(4) : "" }}报表</el-button
-        >
-        <el-button size="small" type="primary" @click="createReportForm"
-          >新建报表</el-button
-        >
+        <el-button
+          size="small"
+          type="primary"
+          @click="archivingReportForm"
+        >归档{{ yearMonth ? yearMonth.substr(4) : "" }}报表</el-button>
+        <el-button
+          size="small"
+          type="primary"
+          @click="createReportForm"
+        >新建报表</el-button>
         <el-button size="small" @click="$router.back()">取消</el-button>
       </el-col>
     </el-row>
@@ -116,88 +119,88 @@
 <script>
 import {
   getArchivingCont,
-  newReport,
+  newReport
   // getArchivingArchive
-} from "@/api/salarys";
+} from '@/api/salarys'
 export default {
-  name: "HistoricalArchiving",
+  name: 'HistoricalArchiving',
   data() {
     return {
       loading: false,
       num: 0,
       contentData: [],
-      yearMonth: this.$route.query.yearMonth,
-    };
+      yearMonth: this.$route.query.yearMonth
+    }
   },
   created() {
-    this.getArchivingCont();
+    this.getArchivingCont()
   },
   methods: {
     inService(data) {
-      return data.inServiceStatus === "1" ? "在职" : "离职";
+      return data.inServiceStatus === '1' ? '在职' : '离职'
     },
     async getArchivingCont() {
       try {
-        this.loading = true;
-        const yearMonth = this.yearMonth;
-        this.contentData = await getArchivingCont({ yearMonth, opType: 1 });
-        this.loading = false;
+        this.loading = true
+        const yearMonth = this.yearMonth
+        this.contentData = await getArchivingCont({ yearMonth, opType: 1 })
+        this.loading = false
       } catch (err) {
-        this.loading = false;
+        this.loading = false
       }
     },
     clickCancel() {
-      this.$router.back(-1);
+      this.$router.back(-1)
     },
     async archivingReport() {
       const msg =
-        "您确认归档当月报表吗？(报表归档将覆盖上一次归档记录，无法恢复)";
-      this.$confirm(msg, "归档" + this.yearMonth + "报表").then(() => {
-        this.$message.success("success");
-      });
+        '您确认归档当月报表吗？(报表归档将覆盖上一次归档记录，无法恢复)'
+      this.$confirm(msg, '归档' + this.yearMonth + '报表').then(() => {
+        this.$message.success('success')
+      })
     },
     // 归档报表
     archivingReportForm() {
-      this.$confirm("您确认归档当月报表吗？").then(async () => {
+      this.$confirm('您确认归档当月报表吗？').then(async() => {
         // await getArchivingArchive({ yearMonth: this.yearMonth })
-        this.$message.success("归档成功");
-      });
+        this.$message.success('归档成功')
+      })
     },
     // 新建报表
     createReportForm() {
-      const yearMonth = this.getNextMonth();
-      const year = yearMonth.substring(0, 4);
-      const month = yearMonth.substring(4);
-      this.$confirm("您将创建 《 " + year + "年" + month + "月 》 报表").then(
+      const yearMonth = this.getNextMonth()
+      const year = yearMonth.substring(0, 4)
+      const month = yearMonth.substring(4)
+      this.$confirm('您将创建 《 ' + year + '年' + month + '月 》 报表').then(
         () => {
-          this.yearMonth = yearMonth;
-          this.createNewReport(this.yearMonth);
-          this.$message.success("新建报表成功");
-          this.getArchivingCont();
+          this.yearMonth = yearMonth
+          this.createNewReport(this.yearMonth)
+          this.$message.success('新建报表成功')
+          this.getArchivingCont()
         }
-      );
+      )
     },
     async createNewReport(yearMonth) {
-      await newReport({ yearMonth });
+      await newReport({ yearMonth })
     },
     getNextMonth() {
-      const year = this.yearMonth.substring(0, 4);
-      const month = this.yearMonth.slice(4);
-      let year2 = year;
-      let month2 = parseInt(month) + 1;
+      const year = this.yearMonth.substring(0, 4)
+      const month = this.yearMonth.slice(4)
+      let year2 = year
+      let month2 = parseInt(month) + 1
       if (month2 === 13) {
-        year2 = parseInt(year2) + 1;
-        month2 = 1;
+        year2 = parseInt(year2) + 1
+        month2 = 1
       }
       if (month2 < 10) {
-        month2 = "0" + month2;
+        month2 = '0' + month2
       }
-      const t2 = year2 + month2;
-      return t2;
+      const t2 = year2 + month2
+      return t2
     },
-    handleExport() {},
-  },
-};
+    handleExport() {}
+  }
+}
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
 @import "./../../styles/variables.scss";

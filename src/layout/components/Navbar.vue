@@ -9,20 +9,20 @@
     <div class="app-breadcrumb">
       上海屹通信息科技股份有限公司
       <span class="breadBtn">体验版</span>
-      
+
     </div>
-    
+
     <!-- <breadcrumb class="breadcrumb-container" /> -->
     <div class="right-menu">
-      <ScreenFull class="ScreenFull"></ScreenFull>
-      <ThemePicker class="ThemePicker"></ThemePicker>
-      <langVue class="langVue"></langVue>
+      <ScreenFull class="ScreenFull" />
+      <ThemePicker class="ThemePicker" />
+      <langVue class="langVue" />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <!-- @/assets/common/bigUserHeader.png -->
-          <img v-imageError="defaultImg" :src="avatar" class="user-avatar" />
+          <img v-imageError="defaultImg" :src="avatar" class="user-avatar">
           <span class="name">{{ name }}</span>
-          <i class="el-icon-caret-bottom"  style="color: #fff;"/>
+          <i class="el-icon-caret-bottom" style="color: #fff;" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
@@ -44,35 +44,35 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Breadcrumb from "@/components/Breadcrumb";
-import Hamburger from "@/components/Hamburger";
-import langVue from "@/components/Lang"
+import { mapGetters } from 'vuex'
+import Breadcrumb from '@/components/Breadcrumb'
+import Hamburger from '@/components/Hamburger'
+import langVue from '@/components/Lang'
 
 export default {
-  data(){
-    return {
-      defaultImg:require('@/assets/common/head.jpg')
-    }
-  },
   components: {
     Breadcrumb,
     Hamburger,
     langVue
   },
+  data() {
+    return {
+      defaultImg: require('@/assets/common/head.jpg')
+    }
+  },
   computed: {
-    ...mapGetters(["sidebar", "avatar","name"]),
+    ...mapGetters(['sidebar', 'avatar', 'name'])
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch("app/toggleSideBar");
+      this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch("user/logout");
-      this.$router.push('/login');
-    },
-  },
-};
+      await this.$store.dispatch('user/logout')
+      this.$router.push('/login')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -4,7 +4,7 @@ import request from '@/utils/request'
 export function getUserSimple() {
   return request({
     url: '/sys/user/simple',
-    method: 'GET',
+    method: 'GET'
   })
 }
 
@@ -21,7 +21,7 @@ export function getUserList(params) {
 export function delUserById(id) {
   return request({
     url: `/sys/user/${id}`,
-    method: 'delete',
+    method: 'delete'
   })
 }
 
@@ -30,7 +30,7 @@ export function addEmployees(data) {
   return request({
     url: '/sys/user',
     method: 'POST',
-    data,
+    data
   })
 }
 
@@ -39,7 +39,7 @@ export function importEmployees(data) {
   return request({
     url: '/sys/user/batch',
     method: 'POST',
-    data,
+    data
   })
 }
 
@@ -48,7 +48,7 @@ export function updateEmployeesInfo(data) {
   return request({
     url: `/sys/user/${data.id}`,
     method: 'put',
-    data,
+    data
   })
 }
 
@@ -68,14 +68,12 @@ export function updatePersonal(data) {
   })
 }
 
-
 // 获取用户的岗位信息
 export function getJobDetail(id) {
   return request({
     url: `/employees/${id}/jobs`
   })
 }
-
 
 // 保存岗位信息
 export function updateJob(data) {
@@ -89,7 +87,7 @@ export function updateJob(data) {
 // 给员工分配角色
 export function assignRoles(data) {
   return request({
-    url: "/sys/user/assignRoles",
+    url: '/sys/user/assignRoles',
     method: 'put',
     data
   })

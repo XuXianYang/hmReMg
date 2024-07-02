@@ -4,7 +4,7 @@ import request from '@/utils/request'
 export function getDepartments() {
   return request({
     url: '/company/department',
-    method: 'GET',
+    method: 'GET'
   })
 }
 
@@ -12,7 +12,7 @@ export function getDepartments() {
 export function getDepartmentDetail(id) {
   return request({
     url: `/company/department/${id}`,
-    method: 'GET',
+    method: 'GET'
   })
 }
 
@@ -21,7 +21,7 @@ export function addDepartment(data) {
   return request({
     url: '/company/department',
     method: 'POST',
-    data,
+    data
   })
 }
 
@@ -38,11 +38,7 @@ export function editDepartment(data) {
 export function delDepartment(id) {
   return request({
     url: `/company/department/${id}`,
-    method: 'delete',
+    method: 'delete'
   })
 }
-
-
-
-
 

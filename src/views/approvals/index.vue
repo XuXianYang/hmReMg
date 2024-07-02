@@ -4,16 +4,15 @@
       <!-- 工具栏 -->
       <page-tools :show-before="true">
         <!-- 前面内容 -->
-        <template v-slot:before
-          >当前审批中 0 本月审批通过 1 本月审批驳回 0</template
-        >
+        <template
+          v-slot:before
+        >当前审批中 0 本月审批通过 1 本月审批驳回 0</template>
         <template v-slot:after>
           <el-button
             size="mini"
             type="primary"
             @click="$router.push('/approvals/securitySetting')"
-            >流程设置</el-button
-          >
+          >流程设置</el-button>
         </template>
       </page-tools>
       <!-- <ApprovalPageTool /> -->
@@ -84,11 +83,11 @@
 </template>
 
 <script>
-import { getApprovalList } from "@/api/approvals";
+import { getApprovalList } from '@/api/approvals'
 // import ApprovalPageTool from './components/approval-tool'
 
 export default {
-  name: "SocialTableIndex",
+  name: 'SocialTableIndex',
   components: {},
   data() {
     return {
@@ -97,64 +96,64 @@ export default {
       page: {
         page: 1,
         total: 0,
-        pageSize: 10,
-      },
-    };
+        pageSize: 10
+      }
+    }
   },
   created() {
-    this.getApprovalList();
+    this.getApprovalList()
   },
   methods: {
     // 初始化数据
     async getApprovalList() {
       try {
-        this.loading = true;
+        this.loading = true
         const { rows, total } = await getApprovalList({
           year: 2018,
-          ...this.page,
-        });
-        this.loading = false;
-        this.page.total = total;
-        this.list = rows;
+          ...this.page
+        })
+        this.loading = false
+        this.page.total = total
+        this.list = rows
       } catch (err) {
-        this.loading = false;
+        this.loading = false
       }
     },
     toDetail(obj) {
-      var name = obj.processName;
+      var name = obj.processName
       switch (name) {
-        case "工资":
+        case '工资':
           this.$router.push({
-            path: "/approvals/salaryApproval/" + obj.processId,
-          });
-          break;
-        case "入职":
+            path: '/approvals/salaryApproval/' + obj.processId
+          })
+          break
+        case '入职':
           this.$router.push({
-            path: "/approvals/enterApproval/" + obj.processId,
-          });
-          break;
-        case "请假":
+            path: '/approvals/enterApproval/' + obj.processId
+          })
+          break
+        case '请假':
           this.$router.push({
-            path: "/approvals/leaveApproval/" + obj.processId,
-          });
-          break;
-        case "离职":
+            path: '/approvals/leaveApproval/' + obj.processId
+          })
+          break
+        case '离职':
           this.$router.push({
-            path: "/approvals/quitApproval/" + obj.processId,
-          });
-          break;
-        case "加班":
+            path: '/approvals/quitApproval/' + obj.processId
+          })
+          break
+        case '加班':
           this.$router.push({
-            path: "/approvals/overtimeApproval/" + obj.processId,
-          });
+            path: '/approvals/overtimeApproval/' + obj.processId
+          })
       }
     },
 
     changePage(newPage) {
-      this.page.newPage = newPage;
-      this.getApprovalList();
-    },
-  },
-};
+      this.page.newPage = newPage
+      this.getApprovalList()
+    }
+  }
+}
 </script>
 

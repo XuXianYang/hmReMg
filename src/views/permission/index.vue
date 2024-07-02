@@ -4,9 +4,11 @@
       <el-row slot="after">
         <!-- addPermission第一个参数 是当前添加的节点的pid  第二个参数是添加的节点的类型 1 -->
         <!-- 1 代表访问权 2 代表操作权 -->
-        <el-button size="small" type="primary" @click="addPermission('0', 1)"
-          >新增权限</el-button
-        >
+        <el-button
+          size="small"
+          type="primary"
+          @click="addPermission('0', 1)"
+        >新增权限</el-button>
       </el-row>
     </PageTools>
     <el-card class="pm-card">
@@ -34,14 +36,17 @@
               type="text"
               size="small"
               @click="addPermission(row.id, 1)"
-              >添加</el-button
-            >
-            <el-button type="text" size="small" @click="editPermission(row)"
-              >编辑</el-button
-            >
-            <el-button type="text" size="small" @click="delPermission(row.id)"
-              >删除</el-button
-            >
+            >添加</el-button>
+            <el-button
+              type="text"
+              size="small"
+              @click="editPermission(row)"
+            >编辑</el-button>
+            <el-button
+              type="text"
+              size="small"
+              @click="delPermission(row.id)"
+            >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -61,24 +66,24 @@
         <!--prop需要和loginRules中的属性对应  -->
         <el-form-item label="权限名称" prop="name">
           <el-input
-            style="width: 80%"
             v-model="formData.name"
+            style="width: 80%"
             placeholder="请输入权限名称"
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item label="权限标识" prop="code">
           <el-input
-            style="width: 80%"
             v-model="formData.code"
+            style="width: 80%"
             placeholder="请输入权限标识"
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item label="描述">
           <el-input
-            style="width: 80%"
             v-model="formData.description"
+            style="width: 80%"
             placeholder="请输入描述信息"
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item label="开启">
           <el-switch
@@ -97,9 +102,11 @@
       >
         <!-- 列被分为24 -->
         <el-col :span="12">
-          <el-button type="primary" size="small" @click="addEditPermissionRq"
-            >确定</el-button
-          >
+          <el-button
+            type="primary"
+            size="small"
+            @click="addEditPermissionRq"
+          >确定</el-button>
         </el-col>
         <el-col :span="12">
           <el-button size="small" @click="closeDialog">取消</el-button>
@@ -108,123 +115,123 @@
     </el-dialog>
   </div>
 </template>
-  
-  <script>
+
+<script>
 import {
   getPermissionList,
   delPermissionById,
   updatePermissionById,
-  addPermission,
-} from "@/api/permission";
-import { tranListToTreeData } from "@/utils";
+  addPermission
+} from '@/api/permission'
+import { tranListToTreeData } from '@/utils'
 export default {
   data() {
     return {
       loading: false,
       permissionList: [],
       formData: {
-        name: "", // 名称
-        code: "", // 标识
-        description: "", // 描述
-        type: "", // 类型 该类型 不需要显示 因为点击添加的时候已经知道类型了
-        pid: "", // 因为做的是树 需要知道添加到哪个节点下了
-        enVisible: "0", // 开启
+        name: '', // 名称
+        code: '', // 标识
+        description: '', // 描述
+        type: '', // 类型 该类型 不需要显示 因为点击添加的时候已经知道类型了
+        pid: '', // 因为做的是树 需要知道添加到哪个节点下了
+        enVisible: '0' // 开启
       },
       formRules: {
         name: [
-          { required: true, trigger: "blur", message: "权限名称不能为空" },
+          { required: true, trigger: 'blur', message: '权限名称不能为空' }
         ],
         code: [
-          { required: true, trigger: "blur", message: "权限标识不能为空" },
-        ],
+          { required: true, trigger: 'blur', message: '权限标识不能为空' }
+        ]
       },
-      showDialog: false,
-    };
+      showDialog: false
+    }
   },
   computed: {
     showText() {
-      return this.formData.id ? "编辑权限" : "新增权限";
-    },
+      return this.formData.id ? '编辑权限' : '新增权限'
+    }
   },
   created() {
-    this.getPermissionList();
+    this.getPermissionList()
   },
   methods: {
     // 获取权限列表
     async getPermissionList() {
-      this.loading = true;
-      const res = await getPermissionList();
-      this.permissionList = tranListToTreeData(res, "0");
-      this.loading = false;
-      console.log(this.permissionList);
+      this.loading = true
+      const res = await getPermissionList()
+      this.permissionList = tranListToTreeData(res, '0')
+      this.loading = false
+      console.log(this.permissionList)
     },
     // 关闭弹框
     closeDialog() {
       this.formData = {
-        name: "", // 名称
-        code: "", // 标识
-        description: "", // 描述
-        type: "", // 类型 该类型 不需要显示 因为点击添加的时候已经知道类型了
-        pid: "", // 因为做的是树 需要知道添加到哪个节点下了
-        enVisible: "0", // 开启
-      };
-      this.$refs.form.resetFields();
-      this.showDialog = false;
+        name: '', // 名称
+        code: '', // 标识
+        description: '', // 描述
+        type: '', // 类型 该类型 不需要显示 因为点击添加的时候已经知道类型了
+        pid: '', // 因为做的是树 需要知道添加到哪个节点下了
+        enVisible: '0' // 开启
+      }
+      this.$refs.form.resetFields()
+      this.showDialog = false
     },
     // 添加权限
     addPermission(pid, type) {
-      this.formData.pid = pid;
-      this.formData.type = type;
-      this.showDialog = true;
+      this.formData.pid = pid
+      this.formData.type = type
+      this.showDialog = true
     },
     // 编辑权限
     editPermission(data) {
-      this.formData = {...data};
-      this.showDialog = true;
+      this.formData = { ...data }
+      this.showDialog = true
     },
     // 发起添加编辑权限请求
     addEditPermissionRq() {
-      this.$refs.form.validate().then(()=>{
+      this.$refs.form.validate().then(() => {
         this.loading = true
-        if(this.formData.id){
+        if (this.formData.id) {
           return updatePermissionById(this.formData)
-        }else{
+        } else {
           return addPermission(this.formData)
         }
       })
-      .then(()=>{
-        if(this.formData.id){
-          this.$message.success("更新权限成功");
-        }else{
-          this.$message.success("添加权限成功");
-        }
-        this.getPermissionList()
-        this.showDialog = false
-        this.loading = false
-      })
-      .catch(()=>{
-        this.loading = false
-      })
+        .then(() => {
+          if (this.formData.id) {
+            this.$message.success('更新权限成功')
+          } else {
+            this.$message.success('添加权限成功')
+          }
+          this.getPermissionList()
+          this.showDialog = false
+          this.loading = false
+        })
+        .catch(() => {
+          this.loading = false
+        })
     },
     // 删除权限
     async delPermission(id) {
-      this.$confirm("确认要删除该权限吗？")
+      this.$confirm('确认要删除该权限吗？')
         .then(() => {
-          this.loading = true;
-          return delPermissionById(id);
+          this.loading = true
+          return delPermissionById(id)
         })
         .then(() => {
-          this.loading = false;
-          this.$message.success("删除权限成功");
+          this.loading = false
+          this.$message.success('删除权限成功')
         })
         .catch(() => {
-          this.loading = false;
-        });
-    },
-  },
-};
+          this.loading = false
+        })
+    }
+  }
+}
 </script>
-  
+
 <style lang='scss'>
 .permission-container {
   .pm-card {
